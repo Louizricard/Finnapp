@@ -1,0 +1,46 @@
+name: App CI
+
+on:
+  push:
+    paths:
+      - "app/**"
+      - ".github/workflows/app-ci.yml"
+  pull_request:
+    paths:
+      - "app/**"
+      - ".github/workflows/app-ci.yml"
+
+jobs:
+  analyze-test-build:
+    name: Flutter Analyze, Test and Web Build
+    runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: app
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Install dependencies
+        run: |
+          flutter pub get
+
+      - name: Run Flutter Analyze
+        run: |
+          flutter analyze
+
+      - name: Run Flutter Tests
+        run: |
+          flutter test
+
+      - name: Build Flutter Web (Validation)
+        run: |
+          flutter build web
