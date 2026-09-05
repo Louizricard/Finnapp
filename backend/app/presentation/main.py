@@ -19,6 +19,12 @@ from app.presentation.api.v1.routers.health import (
 from app.presentation.api.v1.routers.health import (
     router as health_router,
 )
+from app.presentation.api.v1.routers.pluggy import (
+    router as pluggy_router,
+)
+from app.presentation.api.v1.routers.webhooks import (
+    router as webhooks_router,
+)
 from app.presentation.middlewares.request_id import RequestIdMiddleware
 
 
@@ -68,6 +74,10 @@ def create_app() -> FastAPI:
     # API v1 routers
     app.include_router(health_router, prefix="/api/v1")
     app.include_router(auth_router, prefix="/api/v1")
+    app.include_router(pluggy_router, prefix="/api/v1")
+    app.include_router(webhooks_router, prefix="/api/v1")
+    # Also support /webhooks directly without prefix
+    app.include_router(webhooks_router)
 
     return app
 

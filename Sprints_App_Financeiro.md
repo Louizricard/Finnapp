@@ -91,19 +91,20 @@
 **Objetivo:** o backend consegue autenticar-se na Pluggy e emitir tokens de conexão para o futuro cliente.
 
 **Subtasks**
-- [ ] `infrastructure/pluggy/client.py`: método de autenticação (`POST /auth` da Pluggy) usando `CLIENT_ID`/`CLIENT_SECRET`
-- [ ] `infrastructure/cache/memory_token_cache.py`: cache em memória do `apiKey` com expiração e renovação proativa (~10 min antes de expirar) — implementa interface abstrata (ADR-004)
-- [ ] `infrastructure/pluggy/schemas.py`: modelos Pydantic dos payloads relevantes (auth, connect_token, item)
-- [ ] Método `PluggyClient.create_connect_token()` (`POST /connect_token`)
-- [ ] Use case + endpoint `POST /pluggy/connect-token` (RF-010)
-- [ ] Modelo ORM `PluggyItem` + migration (tabela `pluggy_items`, Seção 5.2)
-- [ ] `domain/repositories/pluggy_item_repository.py` + implementação
-- [ ] Use case + endpoint `POST /pluggy/items` — recebe `item_id` do cliente e persiste o registro inicial (RF-011/012, primeira metade)
-- [ ] Endpoint receptor de webhook `POST /webhooks/pluggy/{secret}` — **esqueleto**: valida o secret no path (Seção 7.7), loga o payload recebido em `sync_logs` (criar essa tabela já aqui, mesmo que o processamento completo só venha no Sprint 4), responde `200` rapidamente
-- [ ] Registrar a URL de webhook na Aplicação Pluggy (via Dashboard ou `POST /webhooks`)
-- [ ] Testes unitários: cache de token (expiração, renovação)
-- [ ] Testes de integração com `respx` mockando `/auth` e `/connect_token` da Pluggy
-- [ ] Validação manual ponta a ponta contra o **Sandbox real** da Pluggy (gerar um `connectToken` de verdade via `curl`/Postman e confirmar que funciona)
+- [x] `infrastructure/pluggy/client.py`: método de autenticação (`POST /auth` da Pluggy) usando `CLIENT_ID`/`CLIENT_SECRET`
+- [x] `infrastructure/cache/memory_token_cache.py`: cache em memória do `apiKey` com expiração e renovação proativa (~10 min antes de expirar) — implementa interface abstrata (ADR-004)
+- [x] `infrastructure/pluggy/schemas.py`: modelos Pydantic dos payloads relevantes (auth, connect_token, item)
+- [x] Método `PluggyClient.create_connect_token()` (`POST /connect_token`)
+- [x] Use case + endpoint `POST /pluggy/connect-token` (RF-010)
+- [x] Modelo ORM `PluggyItem` + migration (tabela `pluggy_items`, Seção 5.2)
+- [x] `domain/repositories/pluggy_item_repository.py` + implementação
+- [x] Use case + endpoint `POST /pluggy/items` — recebe `item_id` do cliente e persiste o registro inicial (RF-011/012, primeira metade)
+- [x] Endpoint receptor de webhook `POST /webhooks/pluggy/{secret}` — **esqueleto**: valida o secret no path (Seção 7.7), loga o payload recebido em `sync_logs` (criar essa tabela já aqui, mesmo que o processamento completo só venha no Sprint 4), responde `200` rapidamente
+- [x] Registrar a URL de webhook na Aplicação Pluggy (via Dashboard ou `POST /webhooks`)
+- [x] Testes unitários: cache de token (expiração, renovação)
+- [x] Testes de integração com `respx` mockando `/auth` e `/connect_token` da Pluggy
+- [x] Validação manual ponta a ponta contra o **Sandbox real** da Pluggy (gerar um `connectToken` de verdade via `curl`/Postman e confirmar que funciona)
+
 
 **DoD específico:** `POST /pluggy/connect-token` autenticado retorna um `connectToken` válido gerado a partir de uma chamada real ao Sandbox da Pluggy; o endpoint de webhook responde `200` a um evento de teste disparado manualmente.
 

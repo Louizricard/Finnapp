@@ -16,7 +16,11 @@ async def setup_and_clean_tables() -> AsyncGenerator[None, None]:
 
     async with async_session_factory() as session:
         async with session.begin():
-            await session.execute(text("TRUNCATE TABLE users, refresh_tokens CASCADE;"))
+            await session.execute(
+                text(
+                    "TRUNCATE TABLE users, refresh_tokens, pluggy_items, sync_logs CASCADE;"
+                )
+            )
 
     yield
 

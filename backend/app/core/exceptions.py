@@ -122,6 +122,21 @@ class ValidationException(AppException):
         )
 
 
+class BadGatewayException(AppException):
+    def __init__(
+        self,
+        detail: str = "Falha na comunicação com serviço externo",
+        errors: Sequence[ErrorItem] | None = None,
+    ) -> None:
+        super().__init__(
+            detail=detail,
+            status_code=status.HTTP_502_BAD_GATEWAY,
+            error_type="bad-gateway",
+            title="Falha na integração externa",
+            errors=errors,
+        )
+
+
 def register_exception_handlers(app: FastAPI) -> None:
     @app.exception_handler(AppException)
     async def app_exception_handler(

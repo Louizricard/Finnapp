@@ -6,6 +6,7 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from app.infrastructure.db.base import Base, TimestampMixin, UUIDPrimaryKeyMixin
 
 if TYPE_CHECKING:
+    from app.infrastructure.db.models.pluggy_item import PluggyItemModel
     from app.infrastructure.db.models.refresh_token import RefreshTokenModel
 
 
@@ -29,6 +30,12 @@ class UserModel(Base, UUIDPrimaryKeyMixin, TimestampMixin):
 
     refresh_tokens: Mapped[list["RefreshTokenModel"]] = relationship(
         "RefreshTokenModel",
+        back_populates="user",
+        cascade="all, delete-orphan",
+        lazy="selectin",
+    )
+    pluggy_items: Mapped[list["PluggyItemModel"]] = relationship(
+        "PluggyItemModel",
         back_populates="user",
         cascade="all, delete-orphan",
         lazy="selectin",

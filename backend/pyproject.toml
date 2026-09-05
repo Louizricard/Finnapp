@@ -85,5 +85,6 @@ filterwarnings = [
 
 [dependency-groups]
 dev = [
+    "respx>=0.23.1",
     "types-passlib>=1.7.7.20260211",
 ]
