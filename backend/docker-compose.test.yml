@@ -1,0 +1,18 @@
+services:
+  postgres_test:
+    image: postgres:16-alpine
+    container_name: finnapp-postgres-test
+    environment:
+      POSTGRES_DB: finapp_test
+      POSTGRES_USER: finapp_test
+      POSTGRES_PASSWORD: finapp_test
+    ports:
+      - "5433:5432"
+    # Ephemeral in-memory tmpfs for maximum test execution speed and clean teardown
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U finapp_test -d finapp_test"]
+      interval: 2s
+      timeout: 2s
+      retries: 10

@@ -1,0 +1,20 @@
+import httpx
+import pytest
+
+
+@pytest.mark.asyncio
+async def test_root_health_check(async_client: httpx.AsyncClient) -> None:
+    response = await async_client.get("/health")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "ok"
+    assert "environment" in data
+
+
+@pytest.mark.asyncio
+async def test_api_v1_health_check(async_client: httpx.AsyncClient) -> None:
+    response = await async_client.get("/api/v1/health")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["status"] == "ok"
+    assert "environment" in data

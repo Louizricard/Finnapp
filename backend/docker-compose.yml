@@ -1,0 +1,48 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: finnapp-api
+    restart: unless-stopped
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env.example
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://finapp:finapp@postgres:5432/finapp
+      - ENV=development
+      - DEBUG=true
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - finnapp-network
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: finnapp-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: finapp
+      POSTGRES_USER: finapp
+      POSTGRES_PASSWORD: finapp
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U finapp -d finapp"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - finnapp-network
+
+volumes:
+  postgres_data:
+    driver: local
+
+networks:
+  finnapp-network:
+    driver: bridge
