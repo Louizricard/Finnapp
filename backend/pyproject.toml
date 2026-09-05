@@ -10,6 +10,15 @@ dependencies = [
     "pydantic>=2.8.0",
     "pydantic-settings>=2.4.0",
     "httpx>=0.27.0",
+    "sqlalchemy[asyncio]>=2.0.30",
+    "asyncpg>=0.29.0",
+    "alembic>=1.13.0",
+    "argon2-cffi>=23.1.0",
+    "passlib[argon2]>=1.7.4",
+    "pyjwt>=2.9.0",
+    "slowapi>=0.1.9",
+    "structlog>=24.4.0",
+    "email-validator>=2.0.0",
 ]
 
 [project.optional-dependencies]
@@ -43,6 +52,7 @@ select = [
 ]
 ignore = [
     "E501", # line too long handled by formatter
+    "B008", # do not perform function calls in argument defaults (standard for FastAPI Depends)
 ]
 
 [tool.ruff.lint.isort]
@@ -69,3 +79,11 @@ minversion = "8.0"
 testpaths = ["tests"]
 asyncio_mode = "auto"
 python_files = ["test_*.py"]
+filterwarnings = [
+    "ignore::DeprecationWarning:passlib.*",
+]
+
+[dependency-groups]
+dev = [
+    "types-passlib>=1.7.7.20260211",
+]

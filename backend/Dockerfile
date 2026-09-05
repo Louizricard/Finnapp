@@ -28,8 +28,10 @@ WORKDIR /app
 # Copy virtualenv from builder
 COPY --from=builder /app/.venv /app/.venv
 
-# Copy application source code
+# Copy application source code and migrations
 COPY app /app/app
+COPY alembic /app/alembic
+COPY alembic.ini /app/alembic.ini
 
 # Set environment variables
 ENV PATH="/app/.venv/bin:$PATH" \
