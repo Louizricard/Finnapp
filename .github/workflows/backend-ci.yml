@@ -15,9 +15,29 @@ jobs:
     name: Backend Lint, Test and Docker Build
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: finapp
+          POSTGRES_USER: finapp
+          POSTGRES_PASSWORD: finapp
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 5
+
     defaults:
       run:
         working-directory: backend
+
+    env:
+      DATABASE_URL: postgresql+asyncpg://finapp:finapp@localhost:5432/finapp
+      SETUP_TOKEN: test-setup-token
+      JWT_SECRET: test-jwt-secret-with-at-least-256-bits-length-secure-key
 
     steps:
       - name: Checkout code
@@ -49,6 +69,10 @@ jobs:
       - name: Run Mypy Type Checker
         run: |
           uv run mypy app tests
+
+      - name: Run Alembic Migrations
+        run: |
+          uv run alembic upgrade head
 
       - name: Run Pytest
         run: |
