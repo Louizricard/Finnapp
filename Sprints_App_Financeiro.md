@@ -63,24 +63,24 @@
 **Objetivo:** usuário único consegue se autenticar de ponta a ponta com segurança de produção.
 
 **Subtasks**
-- [ ] `core/config.py` com `pydantic-settings`, lendo todas as variáveis já previstas na Seção 19.1 (mesmo as que só serão usadas em sprints futuras — evita retrabalho)
-- [ ] `infrastructure/db/session.py`: engine assíncrono (`asyncpg`) + `sessionmaker`
-- [ ] Inicializar Alembic (`alembic init`), configurar `env.py` para rodar migrations assíncronas
-- [ ] Modelo ORM `User` + migration inicial (tabela `users`, Seção 5.2)
-- [ ] `domain/entities/user.py` (entidade pura) + `domain/repositories/user_repository.py` (interface)
-- [ ] `infrastructure/db/repositories/user_repository.py` (implementação concreta)
-- [ ] `core/security.py`: hash de senha (Argon2id via `passlib`), criação/validação de JWT (access + refresh)
-- [ ] Use case + endpoint `POST /auth/register` (RF-005), protegido por `SETUP_TOKEN`
-- [ ] Use case + endpoint `POST /auth/login` (RF-001)
-- [ ] Refresh token: armazenamento hasheado + rotação a cada uso (Seção 10.1) — coluna/tabela dedicada
-- [ ] Use case + endpoint `POST /auth/refresh` (RF-002)
-- [ ] Use case + endpoint `POST /auth/logout` (RF-004) — invalida refresh token
-- [ ] Endpoint `GET /auth/me`
-- [ ] Rate limiting em `/auth/login` via `slowapi` (Seção 10.1)
-- [ ] Middleware de `request_id` + `structlog` configurado (Seção 11) — usado a partir daqui em todos os logs
-- [ ] Exception handlers globais + formato de erro padronizado (Seção 8, formato RFC 7807-like)
-- [ ] Testes unitários: hashing de senha, criação/validação de JWT, expiração
-- [ ] Testes de integração: fluxo completo `register → login → me → refresh → logout` contra Postgres de teste
+- [x] `core/config.py` com `pydantic-settings`, lendo todas as variáveis já previstas na Seção 19.1 (mesmo as que só serão usadas em sprints futuras — evita retrabalho)
+- [x] `infrastructure/db/session.py`: engine assíncrono (`asyncpg`) + `sessionmaker`
+- [x] Inicializar Alembic (`alembic init`), configurar `env.py` para rodar migrations assíncronas
+- [x] Modelo ORM `User` + migration inicial (tabela `users`, Seção 5.2)
+- [x] `domain/entities/user.py` (entidade pura) + `domain/repositories/user_repository.py` (interface)
+- [x] `infrastructure/db/repositories/user_repository.py` (implementação concreta)
+- [x] `core/security.py`: hash de senha (Argon2id via `passlib`), criação/validação de JWT (access + refresh)
+- [x] Use case + endpoint `POST /auth/register` (RF-005), protegido por `SETUP_TOKEN`
+- [x] Use case + endpoint `POST /auth/login` (RF-001)
+- [x] Refresh token: armazenamento hasheado + rotação a cada uso (Seção 10.1) — coluna/tabela dedicada
+- [x] Use case + endpoint `POST /auth/refresh` (RF-002)
+- [x] Use case + endpoint `POST /auth/logout` (RF-004) — invalida refresh token
+- [x] Endpoint `GET /auth/me`
+- [x] Rate limiting em `/auth/login` via `slowapi` (Seção 10.1)
+- [x] Middleware de `request_id` + `structlog` configurado (Seção 11) — usado a partir daqui em todos os logs
+- [x] Exception handlers globais + formato de erro padronizado (Seção 8, formato RFC 7807-like)
+- [x] Testes unitários: hashing de senha, criação/validação de JWT, expiração
+- [x] Testes de integração: fluxo completo `register → login → me → refresh → logout` contra Postgres de teste
 
 **DoD específico:** um usuário criado via `/auth/register` consegue logar, acessar `/auth/me`, renovar o token e fazer logout — tudo coberto por teste de integração automatizado.
 
